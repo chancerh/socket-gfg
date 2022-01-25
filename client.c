@@ -6,11 +6,18 @@
 #include <string.h>
 #define PORT 8080
 
+// C++ includes
+#include <string>
+#include <iostream>
+
+std::string getUserInput();
+
 int main(int argc, char const *argv[])
 {
 	int sock = 0, valread;
 	struct sockaddr_in serv_addr;
-	char *hello = "Hello from client";
+    //	char *hello = "Hello from client";
+    std::string hello = getUserInput();
 	char buffer[1024] = {0};
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
@@ -33,9 +40,20 @@ int main(int argc, char const *argv[])
 		printf("\nConnection Failed \n");
 		return -1;
 	}
-	send(sock , hello , strlen(hello) , 0 );
+	send(sock , &hello , hello.size() , 0 );
 	printf("Hello message sent\n");
 	valread = read( sock , buffer, 1024);
 	printf("%s\n",buffer );
 	return 0;
 }
+
+std::string getUserInput() {
+
+  std::string eqn;
+  std::cout << "Enter a math equation" << std::endl;
+  std::cin >> eqn;
+
+  return eqn;
+
+}
+
